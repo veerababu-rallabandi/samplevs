@@ -1,0 +1,238 @@
+JQuery :
+========
+1) What is JQuery
+
+Jquery is a lightweight JavaScript library that simplifies programming with Javascript.
+
+According to JQuery.com
+JQuery is a fast, small, and feature-rich Javascript library. It makes things like HTML
+document traversal and manipulation, event handling, animation and Ajax much simpler
+with an easy-to-use API that works across a multitude of browsers.
+
+*with a combination of versatility and extensibility, jquery has changed the way that millions of
+people write javascript.
+
+* why should we use JQuery
+
+- The use of JQuery has several benefits over using the raw javascript
+
+* JQuery is cross-browser
+* JQuery is a lot more easy to use than raw javascript
+* JQuery is extensible
+* JQuery simplifiers and has rich AJAX support
+* JQuery has large development community and many plugins. Ex: autocomplete textbox plugin.
+* Excellent documentation.
+
+How to use JQuery in a Web application.
+
+Download the Jquery file from JQuery.com and reference it in ur application just like
+any other JAvascript file.
+
+* wt is the difference b/w JQuery 1.x and JQuery 2.x
+- If you want to support IE(Internet Exploxer)6/7/8 , then use JQuery 1.x where as if you don't have the need to support
+IE6/7/8 then use JQuery 2.x. JQuery 2.x is smaller in size than JQuery 1.x.
+
+compressed -JQuery.min.js --It is suitable to production phase.(remove white spaces)
+Uncompressed - JQuery.js -- It is suitable to development phase.
+
+
+Ex:Raw javascript
+    <script>
+
+        window.onload = function () { //onload--fires immediately when open browser.
+            if (document.addEventListener) {
+                document.getElementById("btn").addEventListener('click', clickHandler, false);
+            }
+            else {
+                document.getElementById("btn").addEventListener('onclick', clickHandler)
+            }
+            
+        };
+
+        function clickHandler() {
+            //document.write("Hello");
+            alert("hello");
+        }
+
+    </script>
+
+OR
+
+ //using jQuery
+            jQuery(document).ready(function () {
+                jQuery("#btn").click(function () {
+                    alert("hello");
+                })
+        });
+
+With JQuery we have less code to achieve the same thing. we don't have to worry about cross-browser issues, as all this is taken
+care by jQuery.
+
+Points to remember:
+1. ready() function ensures that the DOM is fully loaded.
+2. $ is a shortcut for JQuery.
+3. All three of the following syntaxes are equivalent:
+   $(document).ready(handler)
+   $().ready(handler)(this is not recommended)
+   $(handler)
+
+     //It is annoymus method
+            $(function () {
+                $("#btn1").click(function () {
+                    alert("I am method 2");
+                })
+            })
+
+2. What is $document ready function:
+
+* $(document).ready is a JQuery event. It fires as soon as the DOM is loaded & ready to be manipulated by script. This is the earliest
+point in the page load process where the script can safely access elements in the page's html dom. This event is fired before all the images,
+css etc.. are fully loaded.
+
+
+Note: 
+In the following ex, we have removed the ready() method. when you click the button now, you don't get the alert. This is bcoz the JQuery code is present before the button element,
+so by the time the jQuery code is executed the button elements is not loaded into DOM.
+
+To make this ex, you have 2 options
+* plz ur jquery code in $(document).ready function OR
+* plz ur script at the bottom of the page just before the closing </body> element.
+
+* $(window).load event fires when the DOM and all the content on the page(image, css etc.)is fully loaded. since the window load event waits for
+images, css etc to be fully loaded, this event fires after ready event.
+
+
+* In most cases, the script can be run as soon as the DOM hierarchy has been fully constructed. So ready() is usually the best place to write
+your javascript code. However, in your application there could be scenarios wherye you should be using 
+$(window).load over $(document).ready.
+Ex: 
+    $(window).load(function () {
+            $("#div1").html("height: " + $("#img").height + "width " + $("#img").width);
+        });
+
+o/p: heith : something width: something
+
+change --$(document).ready()
+           ......
+o/p: height: 0 width: 0
+
+3) Benefits of using CDN:
+CDN: It stands for content Delivery Network. A CDN is a system of distributed servers that hosts resources such as 
+images, css, Javascript files etc..
+
+companies like MIrcrosoft, Google, yahhoo etc have a free public CDN from which we can load jQuery instead of 
+hosting it on our own web server.
+
+https://docs.microsoft.com/en-us/aspnet/ajax/cdn/overview--CDN
+Benefits of using CDN:
+1. Distributed CDN server
+2. Browser Caching
+3. Parallel Downloads
+4. Reduced server load
+Disadvantage : Your client firewalls may block the CDN. so you may have to request ur clients to whitelist the 
+CDN.
+
+<script>
+window.jQuery || document.write("<script src='jquery-1.11.2.js'></script>");
+</script>
+
+4)Selectors
+===========
+JQuery selectors : one of the most important concept in JQuery is selectors. JQuery 
+selectors allow you to select and manipulate HTML elements
+
+Different selectors in Jquery.
+JQuery selectors allow you to select html elements in the DOM by
+1. Element ID
+2. Element TagName
+3. Element ClassName
+4. Element attribute
+5. Element Attribute values and many more.
+
+* HTML element IDs must be unique on the page. JQuery #id selector returns only the first element, if you have 2 or more elements with the 
+same ID.
+* Javascript document.getElementById() function throws an error if the element with the given id is not found, where as Jquery #id selector will not throw an error. To check
+if an element is returned by the #id selector use length property.
+
+* getElementById & JQuery(#id) selectors are not same.
+getElementById returns a raw DoM object where as jQuery(#id) selector returns a JQuery object . Easily call to jQuery methods like css,click() etc...
+
+
+* document.getElementById() is faster than Jquery('#id') selector.
+      //document.getElementById("btn2").style.backgroundColor = 'green';
+
+//checking purpose...
+if ($("#btn1").length > 0) {
+                        document.write("element is found");
+                    }
+                    else {
+                        document.write("not found");
+                    }
+
+
+5) Element Selector:
+To select the elements by tag name use jQuery Element Selector
+syn: $(element)
+ex: $('td') //selects all td elements
+$('div a')// select all anchor elements that are descendants of div element
+$('div, span, a')// selects all div, span and anchor elements
+
+
+ex: 
+  $(document).ready(function () {
+            $("div #h1").css('background-color', 'green');
+        });
+*first go div tag,then next go to #h1 id...
+
+At time.
+$('div,a,h1').css('background-color','green');
+
+* select all anchor elements that are descendants of div element
+  Ex: $('div a').css('background-color','yellow')
+
+* Changes the background color of even rows to gray and odd rows to yellow in both the tables
+ex: $('tr:even').css('background-color','gray');
+    $('tr:odd').css('background-color','yellow');
+
+6) JQuery class selector:
+========================
+* Jquery class selector- selecting elements using their css class name.
+syn: $(".class")
+* JQuery class selectors uses javascript's native getElementByClassName() function if the browser supports it
+$('.small') --selects all elements with class small
+$('.small,.big')--selects all elements with class small or big
+$('div.small,.big')--selects div elements with class small & any element with class big.
+
+* Selects all elements that has both the classes - small & big. There should be no  space b/w the 
+class names
+$(document).ready(function(){
+ $('.small.big').css('border','5px solid red');
+});
+
+or another solution is :    $(".class1").filter('.first').css('border', '5px solid pink');//using filter method
+
+7)JQuery attribute selector:
+
+* JQuery attribute selector i.e. selecting elements that have specified attribute and/or specified attribute values.
+syntax:
+$('[attribute]')
+$('[attribute="value"]')
+ex:
+$('[title]')//selects all elements that have title attribute
+$('div[title]')//selects all div elements that have title attribute
+$('[title="divTitle"]')//selects all elements that have title attribute value -divTitle
+$('div[title="divTitle"]')//selects all div elements that have title attribute value- divTitle
+
+ex: $('h2[title="h2"]').css('background-color', 'red');
+
+$('[title=\'h2\']').css()--escape black slash
+$('[title=\"h2\"]').css()
+
+* Selects all div elements with both title & style attributes, & sets 5px solid black border
+ex: $('div[title][style]').css()
+* Selects all div elements with title attribute value - divtitle, and style attribute value-background-color:red
+and sets 5px solid black border
+Ex: $('div[title="divtitle"][style="background-color:red"]').css()
+
+* selects all div elements with either title or style attributes  & sets 5px solid black border
+ex: $('div[title],[style]').css()
