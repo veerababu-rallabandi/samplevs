@@ -251,8 +251,788 @@ ex: $('div[title],[style]').css()
 Examples:
 * $('[title="div1Tile"]') --Selects all elements that have tile attribute value equal to div1Title
 * $('[title!="div1Tile"]') --Selects all elements that have title attribute value not equal to div1Title.
+OR $('div:not([title="div1Title"])').css('border','5px solid red');
 * $('[title="Title"]')-- Selects all elements that have title attribute value containing the given substring - Title
 * $('[title~="myspan"]') -- Selects all elements that have title attribute value containing the given word-myspan, delimited by spaces.
 * $('[title|="myTitle"]')--selects all elements that have title attribute value equal to myTitle or starting with myTitle followed by a hyphen(-)  .
 * $('[title^="div"]')  --- selects all elements that have title attribute value starting with div
 * $('[title$="Heading"]') -- Selects all elements that have title attribute value ending with Heading.
+
+9) JQuery case insensitive attribute selector:
+==============================================
+To make the jQuery attribute value selector case-insenistive
+
+   $('div[title]').filter(function () {
+                return $(this).attr('title').toLowerCase() == "div";
+            }).css('border','3px solid green')
+
+* Attribute contains selector [name*="value"] is case-sensitive
+ex : $('dvi[title*="Div"]').css('border','3px solid red')---only affects Div..not div,DIV..
+To make Attribute contains Selector case-insensitive
+ex: 
+    
+            $('div[title]').filter(function () {
+                return (/DIV/i).test($(this).attr('title'));
+                         OR
+                return RegExp('DIV', 'i').test($(this).attr('title'));
+            }).css('background-color','red');
+
+i--compare case-insensitive  (ignore case)
+ctrl+shift+U--convert to uppercase
+Ctrl+U--convert to lowercase
+
+10)Jquery input vs input:
+=========================
+* Difference b/w $(input) and $(:input)
+ Note : $(:input) selects all input, textarea, select and button elements where as 
+$(input) just selects elements with an input tag.
+
+ex :$('input') example:
+  $(document).ready(function () {
+            $('input').each(function () {
+                alert($(this).val());
+            });
+        });
+
+ex:$(:input) example:
+   $(document).ready(function () {
+            $(':input').each(function () {
+                alert($(this).val());
+            });
+        });
+
+Ex: $(':input[type="text"]')--only text fields selected..
+* Which one is better for performance $('input[type="text"]') or $(':input[type="text"]')
+
+* $('input[type="text"]') is better for performance over $(':input[type="text"]')
+
+* This is bcoz $(':input[type="text"]') needs to scan all input elements, textarea, select etc., where as
+$('input[type="text"]') scans only input elements.
+
+* So if you want to find elements with an input tag, it is always better to use
+$('input[type="text"]') over $(':input[type="text"]')
+
+11) JQuery checked selector
+============================
+* The : checked selector selects all checked checkboxes or radio buttons.
+
+* Selects all checked radio button elements
+$('input[type="radio"]:checked')
+
+ex: radio button
+   $("#submitid").click(function () {
+                var data = $('input[type="radio"]:checked');
+                if (data.length > 0) {
+                    $("#result").html(data.val() + " checked");//div tag--id=#result
+                }
+                else {
+                    $("#result").html("No radio checked");
+                }
+            })
+
+ex: checkboxes
+   ==========
+            $("#submitid2").click(function () {
+
+                var data = $('input[type="checkbox"]:checked');
+                if (data.length > 0) {
+                    var results = data.length + "checkboxes selected  ";
+                    data.each(function () {
+                        results += $(this).val() + "<br/>";
+                    });
+                    $("#result2").html(results);
+
+                }
+                else {
+                    $("#result2").html("NO one is selected");
+                }
+            });
+
+
+12) Select values of checkbox group with jquery
+===============================================
+* If you have just one group of checkboxes on your page, to get all the checked checkboxes you
+can use $('input[type="checkbox"]:checked')
+
+* If you have more than one checkbox group, $('input[type="checkbox"]:checked') is going
+to select all checked checkboxes from both the checkbox groups.
+
+Ex :Multip checkboxes
+
+//multiple checkboxes
+
+
+            $("#submitid2").click(function () {  // or $('input[name="skills"]').click(function())
+                getdata("skills");
+            });
+            $("#submitid3").click(function () {  // Or $('input[name="city"]').click()
+                getdata("city");
+            });
+            var getdata = function (Name) {
+                var data = $('input[name="' + Name + '"]:checked');
+                if (data.length > 0) {
+                    var results = data.length + "checkboxes selected <br/> ";
+                    data.each(function () {
+                        results += $(this).val() + "<br/>";
+                    });
+                    $("#div"+Name).html(results);
+                }
+                else {
+                    $("#div"+Name).html("NO one is selected");
+                }
+            };
+
+
+13)jQuery get selected checkbox text:
+=====================================
+
+* As we check the checkboxes, we want to display the count of checkboxes checked and their text & values.
+
+Ex:
+
+$("#submitid2").click(function () {  // or $('input[name="skills"]').click(function())
+                getdata("skills");
+            });
+            $("#submitid3").click(function () {
+                getdata("city");
+            });
+            var getdata = function (Name) {
+                var data = $('input[name="' + Name + '"]:checked');
+                if (data.length > 0) {
+                    var results = data.length + "checkboxes selected <br/> ";
+                    data.each(function () {
+                        var selectedval = $(this).val();
+                        results += selectedval + "- " + $('label[for="cb-' + selectedval+'"]').text()+ "<br/>";
+                    });
+                    $("#div"+Name).html(results);
+                }
+                else {
+                    $("#div"+Name).html("NO one is selected");
+                }
+            };
+<body>
+
+    Skills:
+    <input type="checkbox" name="skills" value="Ja" />
+    <label for="cb-Ja">Java</label>
+    <input type="checkbox" name="skills" value="Jq" />
+    <label for="cb-Jq">Jquery</label>
+    <input type="checkbox" name="skills" value=".NET" />
+    <label for="cb-.NET">.NET</label>
+    <input type="checkbox" name="skills" value="py" />
+    <label for="cb-py">Python</label>
+    <br />
+
+      <input type="submit" id="submitid2" value="Generate Skills" class="btn btn-danger" />
+    <input type="submit" id="submitid3" value="Generate cities" class="btn btn-danger" />
+    <div id="result2">
+
+    </div>
+
+</body>
+
+
+14) Jquery selected selector:
+============================
+* To select all checked checkboxes or radio buttons, we use :checked selector. To select
+  all selected options of a select element use :selected selector.
+
+--> How to get selected option text and value from single select dropdown
+ex;
+        $("#select").click(function () {
+                $("#select").change(function () {
+                    var selectval = $("#select option:selected");
+
+                    $("#result4").html("value is "+selectval.val() + " Text is" + selectval.text());
+                   
+                });
+            })
+
+*   <select id="select">
+        <option value="usa">USA</option>
+        <option value="uk">UK</option>
+        <option value="ind">India</option>
+    </select>
+
+--> How to get all selected options text and value from multi select dropdown
+
+    $("#select").click(function () {
+                $("#select").change(function () {
+                    var selectval = $("#select option:selected");
+
+                    if (selectval.length > 0) {
+                        var resultstr = '';
+                        selectval.each(function () {
+                            resultstr += "Value is " + $(this).val() + " Text is" + $(this).text();
+                        });
+                    }
+
+                    //$("#result4").html("value is "+selectval.val() + " Text is" + selectval.text());
+
+                    $("#result4").html(resultstr);
+                   
+                });
+            })
+
+
+* add one  more attribute line in html <select id="select" multiple>
+
+
+15) Jquery disabled selector:
+=============================
+* JQuery disabled selector
+* JQuery enabled selector
+
+Ex: selects all disabled elements
+//HTML
+First Name: <input type="text"  disabled="disabled" value="xyz" /><br />
+Last Name: <input type="text" disabled="disabled" value="abc" /><br />
+
+//script
+
+            //disabled purpose
+
+            //$(':disabled').css('border', '3px solid red');
+
+           // $('input:disabled').css('border', '3px solid green');
+
+            $('input[type="text"]:disabled').css('border', '3px solid green');
+
+
+* JQuery enabled selector:
+========================
+* selects all enabled elements
+ $(':enabled')
+
+* selects all enabled textarea elements & sets 3px solid red border
+  $('textarea:enabled').css('border','3px solid red');
+
+16)Jqery each function:
+======================
+* JQuery each function is used to iterate over the items in a collection. For each item in the collection the 
+anonymous function is called. The index of the element and the element itself are passed
+to the anonymous function.
+
+    Ex:     $("li").each(function (index,element) {
+                alert(index + "  text is " + $(element).text());
+            });
+Or 
+//this --also used
+* To refer to the current element that we are iterating over you can also use this keyword
+            $("li").each(function (index) {
+                alert(index + " text is " + $(this).text())
+            });
+
+* If you just need the text of the list item, then you can get rid of the index parameter
+  $("li").each(function () {
+                alert(" text is " + $(this).text())
+            });
+
+
+* To exit from each function, return false
+
+ex:   $("li").each(function () {
+                if ($(this).text() == "Coffee") {
+                    return false;
+                }
+                alert($(this).text());
+            })
+
+* Implicit iteration in jQuery : The $('li') selector returns all list item elements. Notice that we are calling the css() jquery function
+on the jquery collection itself. In this case, css() method implicitly over each element in the entire collection.
+ex : $('li').css('color','red');
+
+each function():
+
+* There is no need to explicitly iterate over each element in the collection. Most jQuery methods implicitly iterate over
+the entire collection.
+
+Performance considerations when using jquery each function
+1. jQuery needs to search the DOM for div element with id=divResult, for each list item in the collection. Performance can be improved by 
+caching divResult element.
+2. The DOM element is being updated on each iteration of the loop. To improve the performance build a string variable
+with the required data and then update the DOM element outside of the loop.
+This ensures that the DOM element is updated onlu once.
+ex: 
+$('li').each(function () {
+                $('#first').html($("#first").html() + "<br/>" + $(this).text());
+            })
+
+Ex: another way
+//var divelement=$("#first");
+ var result = '';
+            $('li').each(function () {
+
+                // divelement.html(divelement.html() + "<br/>" + $(this).text());
+                result += '<br/>' + $(this).text();
+            });
+
+            $("#first").html(result);
+
+
+17) jQuery method chaining:
+===========================
+Ex:
+  //$('li').css('color', 'green');
+            //$('li').slideUp(1000);
+            //$('li').slideDown(1000);
+            //$('li').attr('title', 'Mytitle');
+             
+	     (OR)
+            $('li').css('color', 'red').slideUp(1000).slideDown(1000).attr('title', 'it is value');
+
+
+* When chaining methods, the line of code will become quite long and the readability will be lost. To improve
+the readability of the code you can format chained methods as shown below.
+$('li')
+.css('color', 'green');
+ .slideUp(1000);
+ .slideDown(1000);
+ .attr('title', 'Mytitle');
+
+Note:
+* when will method chaining not work : Method chaining will not work if a method in the chain does not return an object. In the ex, text() method returns
+a string that contains the text of all the list items and not an object. Hence the chaining does not work in this case.
+
+ex:  $('li').text().css('color', 'red').slideUp(1000).slideDown(1000).attr('title', 'it is value');
+
+$('li')
+.css('color', 'red')--it is worked
+.slideUp(1000)--It is worked
+.slideDown(1000)--It is worked
+.text()---It is not worked--bcoz it's returns string
+.attr('title', 'it is value');--so it not work bcoz, .text() stoped..
+
+
+* Method chaining works, if you use text() method to set the value for the list item. in this case, text() method sets a value for each list item
+in the jquery collection object & returns that collection object. Hence the chaining works.
+
+ex: .text('my value').
+
+18) What is JSON:
+   ==============
+* JSON stands for JavaScript Object Notation. JSON is a lightweight data-interchange format. JSON is an 
+easier-to-use alternative to XML.
+
+//creating a JSON object
+var emp={
+ "firstname":"veeru"
+};
+ 
+To read data from the JSON object, use the property names
+var name=emp.firstname;
+
+ex  :
+    var emp = {
+                "first": "veeru",
+                "last": "rallabandi"
+            };
+
+            var result = 'first Name is ' + emp.first + "<br/>" + 'Last Name is ' + emp.last;
+            $("#first").html(result);
+
+* JSON Arrays : What if you want to store more than one employee data in the JSON object. This is when JSON arrays
+can be used. A JSON array can contain multiple objects.
+
+To create a JSON array
+1. Wrap the objects in square brackets
+2. Each object must be separated with a comma
+
+Ex:
+
+   //JSON arrays
+
+            var emp = [{
+                "first": "veeru",
+                "last": "rallabandi"
+            },
+            {
+                "first": "xyz",
+                "last": "abc"
+
+                }];
+
+            $("#first").html("First Name is "+emp[1].first);//calling
+
+* Nested JSON object : you can also store multiple employees in the JSON object by nesting them..
+
+19)Convert JSON object to string:
+==================================
+* JSON.stringify() method converts a JSON object(or array) into a string
+
+Ex: var emp=[{
+-----
+},
+{
+----
+}
+];
+
+var jsonstring=JSON.stringify(emp);
+$("#result").html(jsonstring)
+
+* JSON.parse() method converts a JSON string to JSON array
+
+Ex:
+
+$(document).ready(function () {
+        var json = [{ "first": "veer" }, { "first": "veerababu" }];
+
+        var output = JSON.parse(json);
+
+        var result = ''
+        $.each(function (i, value) {
+            result += "First Name :" + value.first,
+                result += "first Name: " + value.first
+        });
+        $("#demo").html(result);
+    });
+
+
+20) Convert JSON string to net object:
+====================================
+* Serialize() method of JavaScriptSerializer class converts .NET object to a 
+
+-> How to convert .NET object to JSON string
+ex:
+emp class:
+public class Emp
+{
+   public string Name{get;set;}
+}
+
+web.apsx
+Emp e1=new Emp{
+ Name="veera"
+};
+Emp e2=Emp{
+Name="rallabandi"
+};
+
+List<Emp> list=new List<Emp>();
+list.add(e1)
+list.add(e1);
+JavaScriptSerializer js=new JavaScriptSerializer();
+string output=js.Serialize(list);
+Response.write(output);
+
+* Serialize() method of JavaScriptSerializer class converts a .NET object to a JSON string
+
+* Deserialize() method of JavaScriptSerializer class converts a JSON string to .NET object
+
+Ex: string oupput="[{\"name\":\"veer"\}]"
+JavaScriptSerializer js=new JavaScriptSerializer();
+List<Emp> list=(List<Emp>)js.Deserialize(js);
+foreach(Emp e in list)
+{
+  Response.write(e.name);
+}
+
+21) Jquery DOM manipulation methods:
+=====================================
+What are JQuery Dom manipulation methods
+How to set,retrieve & remove attribute values using jquery.
+
+* JQuery DOM manipulation methods manipulate the DOM in some manner
+
+*JQuery attr method is used to set or retrieve attribute values of html elements.
+
+*Retrieves the title attribute value of the first matching element
+$('div').attr('title')
+
+
+Link : https://jqueryvalidation.org/documentation/#link-list-of-built-in-validation-methods
+
+Note: JavaScriptSerializer class is present in System.Web.Script.Serialization namespace
+
+
+https://code.tutsplus.com/tutorials/easy-form-validation-with-jquery--cms-33096
+
+
+* 
+
+* Select the title attribute value for the title attribute of all the elements to "new div title"
+
+$('div').attr('title','new div title')
+
+* If you want to set the same value for the title attribute of all the elements, then there is no need to loop
+through each element. To set a different value for the title attribute, then you need to loop through each element.
+
+
+Ex:
+
+   $(document).ready(function () {
+        // var divs=$('div')
+        //to write divs.each(function(i){ instead of $('div').each(
+        $('div').each(function (i) {
+            $(this).attr('title','DIV'+(i+1)+'Title')
+        });
+        $('div').each(function () {
+            alert($(this).attr('title'))
+        });
+    });
+
+
+* How to set multiple attribute values
+* Using a JSON object to set multiple attribute values
+
+ex: 
+        var config = {
+            'title': 'New Div title',
+            'style': 'border:3px solid red'
+        };
+
+        $('div').attr(config);
+
+        var res = '';
+
+        $('div').each(function () {
+            res += 'title' + $(this).attr('title') + '<br/>';
+            res += 'style' + $(this).attr('title') + '<br/>';
+          
+
+        });
+
+        $("#result").html(res);
+    });
+
+* Instead of creating a separate JSON object(config) and then passing it to attr() method,
+you can create the JSON object inline
+
+$('div').attr({
+'title':'new div',
+'style':'border:3px solid red;'
+})
+
+* You can also use method chaining to set multiple attribute values
+$('div').attr('title','new dive tile').attr('style','border:3px solid red;').a
+
+* remove an attribute using Jquery removeAttr() method
+$('div[title]').removeAttr('title');
+
+
+22) JQuery wrap elements:
+==========================
+
+* JQuery methods to wrap & unwrap elements. Since these methods modify DOM, they belong to DOM
+manipulation category.
+->wrap
+->unwrap
+->wrapAll
+->wraplanner
+
+wrap-->Wrap an HTML structure around each element in the set of matched elements.
+
+ex: 
+<style>
+    .container{
+        background-color:red
+    }
+</style>
+
+<script>
+    $(document).ready(function(){
+      $('div').wrap("<div class=container></div>");
+    });
+
+* unwrap -- Remove the parents of the set of matched elements from the DOM
+
+* wrapAll -- Wrap an HTML structure around all elements in the set of matched elements 
+
+*wrapInner --- Wrap an HTML structure around the content of each element in the set of matched elements.
+
+23) Jquery append elements
+========================
+
+To append elements : append() or appendTo()
+To prepend elements : prepend() or prependTo()
+
+* since these methods modify DOM, they belong to DOM manipulation category
+
+Ex: $('div').append('<b>Tutorials</b>')  --->o/p: My name tutorial
+                (OR)
+$('<b>Tutorials</b>').appendTo('#div1');
+
+* What is the difference b/w append & appendTo
+--> Both these methods perform the same task. The only difference is in the syntax. with append method we first specify the target elements
+and then the content that we want to append, where as we do the opposite with appendTo method.
+ex:   $('<b>Tutorals</b>').appendTo($("#div1"))
+
+prepend :
+========
+$('div').prepend('<b>T</b>'); or $('<b>T</b>').prependTo('div');
+
+* wt is the difference b/w prepend & prependTo
+-->Both these methods perform the same task. The only difference is in the syntax. With prepend method we first specify the target
+elements and then the content that we want to prepend, where as we do the opposite with prependTo method.
+
+Prepend--beginning inserted
+append --ending inserted
+
+* Jquery append exissting element : these methods(append,appendTo,prepend,prependTo) can also select an element
+on the page and insert it into another
+Ex: $('div').append($('#span'));
+
+
+24) Jquery insert element before & after:
+=========================================
+* To insert an element before another element
+before
+insertBefore
+Ex: $('div').before('<h1>hello</h1>') or ('<h1>hello</h1>').insertBefore($('div'))
+
+* To insert an element after another element
+after
+insertAfter
+
+Note : How to insert existing element before or after another element: These methods (before,insertBefore,after, insertAfter)
+can select an existing element on the page and insert it before or after another element.
+
+Ex: $('div').after($('span'))---$('div').after($(selector))
+
+25) Jquery add or remove class:
+=============================
+* hasClass -- Returns true if an element has the specified class otherwise false
+* addClass -- Adds one or more specified classes. To add multiple classes separate them with a space.
+* removeClass-- Removes one or multiple or all classes. To remove multiple classes separate them with a space. To remove all classes, don't 
+  specify any class name.
+*toggleClass -- Toggles one or more specified classes. If the element has the specified class then it is remove, if the
+                class is not present then it is added.
+
+
+Ex:  $("#btn").click(function () {
+            $("#first").addClass('adddemo')
+        });
+
+Ex: $("#first").toggleClass('adddemo add1')
+
+26) $.each & .each
+===================
+In JQuery there are 2 versions of each() method
+1).each()
+2)$.each() or jQuery.each()
+
+Note : $ is shortcut for jQuery
+
+* wt is difference:
+--> .each() method is used to iterate over the items in a jQuery collection where as $.each() method
+is used to iterate over javascript objects or arrays.
+
+Ex:
+
+var result = '';
+        $("li").each(function (index, ele) {
+            result += 'Index' + index + ' element' + $(ele).text()//also using--$(this)
+        });
+
+        $("#first").html(result);
+
+
+ex: $.each()
+var intarr=[10,20]
+var result=''
+$.each(intarr,function(index,element){
+result+='INdex'+ index+', value '+element+'<br/>';
+});
+$("#result").html(result)
+
+* $.each() function is also used to iterate over JavaScript object properties..
+
+27) Jquery map method
+===================
+* Just like jquery each() method, map() method is also used to iterate over matched
+elements.
+
+* In general, if you want to create an array or concatenated string based on all matched
+elements in a jQuery selector, it is better to use map() over each() method.
+ex:
+
+ alert($('li').map(function (index, element) {
+            return $(element).text();
+        }).get());
+
+
+Ex: 
+
+    $("#btn").click(function () {
+
+
+            alert($('li').map(function (index, element) {
+                return $(element).text();
+            }).get().join('|'));
+        });
+
+
+28) Difference b/w each & map in Jquery:
+=========================================
+$.map
+=====
+* map method can be used as an iterator.
+* Returns a new array
+* The order of callback arguments -- element, index.
+$.map(elems,function(){element,index},arg)
+* Does not have a way to terminate the iteration.
+
+$.each
+=======
+* Each method is an immutable iterator.
+* Returns the original array
+* The order of callback arguments - index,element.
+$.each(elems,function(){index,element},arg)
+* Return false to terminate the iteration.
+
+
+Ex:
+ var intarr = [3, 2, 5]
+
+        function Demo1(index,element) {
+            return element * 5;
+        }
+
+        function Demo2(index, element) {  //element --index --0,1 so change--element,inde
+            return element * 5;
+        }
+
+        var res1 = $.each(intarr, Demo1);----3,2,5
+        var res2 = $.map(intarr, Demo2);---15,10,25
+
+        document.write(res1 + '<br/>' + res2);
+
+29)Jquery change event:
+======================
+* Change event is fired when an element value changes. All the following elements fire
+this event
+1.input
+2.textarea
+3.select
+
+* select, radio buttons & checkboxes fire the change event as soon as a selection is made, where as the other element types wait until they loose
+focus.
+
+Ex:
+$("#city").change(function () {
+            var selectedValue = $(this).val();  //if(selectedValue==='Select')
+                                                      selectedValue='plz select a city'
+            $("#demo").html(selectedValue);
+        });
+
+
+*input():function
+
+  $("input").change(function () {
+            var result = '';
+            if (result == ' ') {
+                result = $(this).val();
+            }
+            else {
+                result += ',' + $(this).val();
+            }
+
+            $("#demo").html(result);
+        });
+
+
+
+
+
+
