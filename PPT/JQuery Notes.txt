@@ -1033,6 +1033,271 @@ $("#city").change(function () {
 
 
 
+30)Jquery mouse events:
+=======================
+* When the mouse is over the help icon, we want to display the help text, when the 
+mouse is out, hide the help text.
+
+Ex:
 
 
+        $("#btn").mouseover(function () {  //$("p[id='second']") is also using
+            $("#second").fadeIn(500)
+        }).mouseout(function () {
+            $("#second").fadeOut(500)
+        });
+//Html
+    <table>
+        <tr>
+            <td>FirstName</td>
+            <td><input type="text"/></td>
+            <td><input type="button" id="btn" value="?"  class="btn-danger"/></td>
+            <td ><p id="second" style="display:none">Enter fields</p></td>
+        </tr>
+        
+    </table>
 
+
+* mouseenter & mouseleave events can also be used
+
+$(document).ready(function(){
+ $("#btn").mouseover(function () {  //$("p[id='second']") is also using
+            $('#'+getDivId(this)).fadeIn(400);
+            $(this).css('cursor','pointer');
+        }).mouseout(function () {
+            $('#'+getDivId(this)).fadeOut(400);
+        })
+
+        function getDivId(helpid){
+
+           var helpid=$(helpid).attr('id');
+           return helpid.replace('img','div'):
+        }
+});
+
+* We can also achieve the same using hover. hover() function accepts two function arguments, one for mouseenter
+event & one for mouselease event.
+E: $(selector).hover(handlerIn,handlerOut)
+
+is a shorthand for
+$(selector).mouseenter(handlerIn).mouseleave(handlerOut)
+
+31)Jquery event Object
+=====================
+* Whenever an event (like click,mouseover, mouseout etc)occurs, the relevant data about that event is placed into the event object.
+
+Ex: the event object contains event data like the x & y coordinates of the mouse pointer when the event occured, the HTML element that fired the event,
+which mouse button is clicked etc..
+
+* Obtaining the event object is straightforward. The event object is always passed to the event handler method.
+
+$(document).ready(function(){
+$("#btn").click(function(){
+   get(event);
+}).mouseover(function(){
+   get(event);
+}).mouseout(function(){
+ get(event):
+});
+
+function get(event){
+var details='event'+event.type+event.target.type
+$("#demo).html(details)}
+
+* Cross-browser solution: Convert Javascript event object to JQuery event object using 
+$.event.fix(). This code should work in all browsers include internet exploxer 8 and
+earliser versions.
+Ex var e=$.event.fix(event);
+
+32)Jquery to detect which mouse button clicked
+==============================================
+* With raw Javascript event object : Depending on the browser, event.button or event.which properties of the event object are used to determine which mouse button
+is clicked.
+
+
+LInk , go to the code :  https://csharp-video-tutorials.blogspot.com/2015/04/jquery-to-detect-which-mouse-button.html
+
+ex;
+ function whichMouseButtonClicked(event) {
+            var whichButton;
+            if (event.which) {
+                switch (event.which) {
+                    case 1: whichButton = "Left Button Clicked"; break;
+                    case 2: whichButton = "Middle Button Clicked"; break;
+                    case 3: whichButton = "Right Button Clicked"; break;
+                    default: whichButton = "Invalid Button Clicked"; break;
+                }
+            }
+            else {
+                switch (event.button) {
+                    case 1: whichButton = "Left Button Clicked"; break;
+                    case 4: whichButton = "Middle Button Clicked"; break;
+                    case 2: whichButton = "Right Button Clicked"; break;
+                    default: whichButton = "Invalid Button Clicked"; break;
+                }
+            }
+
+            document.getElementById('demo').innerHTML = whichButton;
+        }
+
+
+34)Binding event handler in jquery
+=================================
+* One way to bing event handlers to events is by using the jQuery shorthand functions like .click,.mouseover etc.
+Bind method is another way of doing the same.
+
+* Binds click event handler to the button--btn
+$("#btn).bind('click',function(){
+ $('#div').html('button clicked');
+});
+
+
+* Binds multiple event handlers to the button- btnClickMe. If required, the event object
+can also be passed to the event handler
+
+* use the unbind() method to unbind the event handler
+$('#btn).unbind('mouseover');
+* To unbind all the event handlers of an element, use unbind() method without any
+parameters
+$('#btn').unbind();
+
+*event.type=="mouseover"
+
+Note : If you are using jQuery 1.7 or higher, you should be using on() & off() methods
+instead of bind() and unbind() methods.
+
+Ex:
+$('#btn').click(function(){
+$('#btnclick').bind('mouseover',function(){
+$(this).addClass('ButtonStyle');
+})
+)};
+
+same as unbind also.
+
+     $(document).ready(function () {
+            $('#btnClickMe').bind('click mouseover mouseout', function (event) {
+                if (event.type == 'click') {
+                    $('#divResult').html('Button Clicked at '
+                        + 'X = ' + event.pageX + ' Y = ' + event.pageY);
+                }
+                else if (event.type == 'mouseover') {
+                    $(this).addClass('ButtonStyle');
+                }
+                else {
+                    $(this).removeClass('ButtonStyle');
+                }
+            });
+
+            $('#btnEnableMouseOverEffect').click(function () {
+                $('#btnClickMe').bind('mouseover', function () {
+                    $(this).addClass('ButtonStyle');
+                });
+            });
+
+            $('#btnDisableMouseOverEffect').click(function () {
+                $('#btnClickMe').unbind('mouseover');
+            });
+        });
+
+
+Important link : https://csharp-video-tutorials.blogspot.com
+
+
+34) Binding event handlers using jquery on method:
+==================================================
+also using, bind-on()
+            unbind() - off() in jquery 1.7 higer
+
+* We are binding a single anonymous function as the event handler for all the 3 events.
+1. click
+2. mouseover
+3. Mouseout
+* Jquery shorthand functions(.click,.mouseover,.mouseout etc.)call on() method behind the
+scenes.
+
+3 different ways of binding event handlers in jQuery.
+1. using Jquery shorthand functions(.click,.mouseover,.mouseout etc.)
+
+2. With jQuery version<1.7,bind() method can be used
+element.bind('click',function(){...})
+
+3. With jQuery version 1.7 or higher, on() method can be used
+element.on('click',function(){...});
+
+* on() method is prefered method for attaching event handlers.
+
+
+36) jquery add event handler to dynamically created element:
+============================================================
+* Dynamically create new list item(li), attach a click event handler & add it ot to the unordered list(ul).
+
+
+37)jQuery event delegation:
+===========================
+* Event delegation allows us to attach a single event lister, to a parent element that will fire for all descendants matching a selector, whether those descendants exist
+now or are added in the fututre. Both on() and delegate() functions allow us to perform event delegation.
+* you could use on() or delegate() function for event delegation. If you are using jqukeryk 1.7 or higer version, jquery recommends to use on() over delegate function.
+
+
+* To stop event delegation you can use off() or undelegate() functions. If you are using jQuery1.7 or 
+higher version, jQuery recommends to use off() over undelegate() function.
+
+
+38)jQuery live function:
+======================
+*  Another way to perform event delegation is by using live() function.
+* with on() and delegate() functions the event gets bubbled up to the specified parent element, where as with live() function the event gets bubbled up all the way to 
+the document object.
+* To perform event delegation we are using live() function and to stop event delegation we are using die() function.
+
+* live() function is deprecated in jQuery 1.7 and completely removed in jQuery 1.9.
+Everything that can be achieved with the following three methods can be achieved by using .on() function
+live()
+bind()
+delegate()
+1.7 or above ---use on() function
+
+
+39)jquery execute event only once:
+===================================
+*If you want to execute the click event handler only once, then you will have to explicitly remove the click event handler. The following example removes the click event handler using off() function, after the alert is displayed.
+
+Ex;  $(document).ready(function () {
+        $("#btn1").on('click', function () {
+            alert("button clicked");
+            $(this).off();
+        });
+    });
+
+* jQuery one() function does exactly the same thing. The click event is raised only once. On the first click, JavaScript alert is 
+displayed, but on subsequent clicks nothing happens.
+
+
+Note: one() function executes the handler at most once per element per event type. 
+click mouseover & mouseout events are executed atmost once for each button element.
+
+
+40) How to check if event is already bound:
++===========================================
+
+Why is it important to check if an event is already bound
+To prevent attaching event handler multiple times
+
+The following example checks if a click event handler is already bound. If it's not already bound, then a click event handler is attached.
+
+
+* why is it important to check if an event is already bound
+To prevent attaching event handler multiple times
+
+* This only works if you have attached event handlers using jQuery. This will not work if you have
+attached event handlers using raw JavaScriptor or element attributes.
+
+
+* Another way to prevent attaching event handlers multiple times is 
+by using jQuery off() and on() methods. The off() method ensures that all existing click event 
+handlers of the button are removed before again adding a new click event handler using on() method.
+
+$('#btn').off('click').on('click', function () {
+    alert('Button Clicked');
+});
