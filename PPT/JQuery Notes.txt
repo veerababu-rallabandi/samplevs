@@ -1301,3 +1301,495 @@ handlers of the button are removed before again adding a new click event handler
 $('#btn').off('click').on('click', function () {
     alert('Button Clicked');
 });
+
+
+41)jquery preventdefault:
+===========================
+In some situations you may want to prevent these default actions of the browser. For example some of the websites prevent you from right clicking on the page. Disabling right click is annoying users. Many people say they disabled right click for security, because they do not want their content to be copied. But if you disable JavaScript in the browser, you will still be able to right click and copy the content. So you are achieving nothing by disabling right click.  
+
+ex:  $(document).ready(function () {
+            $(this).on('contextmenu', function (e) {
+                e.preventDefault();
+                $('#divResult').append('Right click disabled<br/>')
+            });
+        });
+
+
+42)jquery scroll event:
+========================
+
+scroll event is raised when the user scrolls to a different place in the element. It applies to window objects, but also to scrollable frames and elements with the overflow CSS property set to scroll.
+
+ex:
+ $(document).ready(function () {
+            $('div').scroll(function () {
+                $('h3').css('display', 'inline').fadeOut(1000);
+            });
+        });
+
+43) Jquery image gallery:
+=========================
+* how to create an image gallery with thumbnails using jQuery.
+* When you click on the image thumnail, the respective image should be displayed in the main section of the page.
+
+Ex:
+$(document).ready(function () {
+            $('#divId img').on({
+                mouseover: function () {
+                    $(this).css({
+                        'cursor': 'hand',
+                        'border-Color': 'red'
+                    });
+                },
+                mouseout: function () {
+                    $(this).css({
+                        'cursor': 'default',
+                        'border-Color': 'grey'
+                    });
+                },
+                click: function () {
+                    var imageURL = $(this).attr('src');
+                    $('#mainImage').fadeOut(1000, function () {
+                        $(this).attr('src', imageURL);
+                    }).fadeIn(1000);
+                }
+            });
+        });
+
+44)optimise jquery image gallery:
+=================================
+ var main = $("img1");
+        var height = parseInt(main.attr('height'));
+        var width = parseInt(main.attr('width'));
+        $("#btnAdd").click(function () {
+            height += 100;
+            width += 100;
+            main.animate({
+                'height': height,
+                'width': width
+            });
+        });
+        $("#btnUndelegate").click(function () {
+            height -= 100;
+            width -= 100;
+            main.animate({
+                'height': height,
+                'width': width
+            });
+        })
+    })
+
+45) jquery image slideshow with thumbnails:
+==============================================
+we will discuss creating a simple image slideshow using jQuery. We will be using setInterval() and clearInterval() JavaScript methods to achieve this
+
+* setInterval(func,delay)-- Executes a specified function, repeatedly at speicified time interval.
+* clearInterval(intervalID)--cancels the repeated execution of the method that was set up using setInterval() method. intervalID is the identifier of the repeated action
+you want to cancel. This ID is returned from setInterval() method.
+
+46)jquery animate function:
+=============================
+Syntax of jquery animate function
+.animate( properties [, duration ] [, easing ] [, complete ] )
+
+Ex: $("#mydiv").animate({'font-size':'50'},2000);
+
+Animate function has 4 parameters. Only the first parameter (properties) is the required parameter. Rest 3 are optional.
+
+Parameter	Description
+=========       ===========
+properties	An object of CSS properties and values
+duration	The duration for animation in milliseconds. Default is 400.
+easing	Easing function to use for the transition. Default is swing. You could also use linear.
+complete	A function to call once the animation is complete
+
+
+ex: 
+ $(document).ready(function () {
+        $("#btn").click(function () {
+            $("#mydiv").animate({
+                'font-size': 50
+            }, 2000);
+        })
+    })
+
+html:
+=====
+ <input type="button" id="btn" value="Animate" />
+    <br />
+    <div id="mydiv">
+        Jquery animation
+    </div>
+
+
+what is jquery easing:
+* Easing is a technique where the speed and/or direction of animation are 
+changed while the animation is in progress. Easing can make the animation start off slow and gradually speed up, start up fast and gradually slow down, and a whole host of other effects. The difference 
+between linear and swing easing is very subtle.
+
+
+ex: 
+Please note: By default, all HTML elements have a static position, and cannot be moved. To modify the position , set the CSS position property of the element to fixed, absolute or relative.
+
+  $(document).ready(function () {
+            $('#myImage').click(function () {
+                $(this)
+                    .animate({ 'left': '300' })
+                    .animate({ 'top': '200' })
+                    .animate({ 'left': '10' })
+                    .animate({ 'top': '10' });
+            });
+        });
+
+html:
+ <img id="myImage" height="100" width="100" style="position:absolute"
+         src="/Images/Tulips.jpg" />
+
+47)animation queue:
+===================
+
+* When several calls to animate() method are chained together. 
+By default these calls are placed into a queue to be executed one after the other in series rather than executing all of them simultaneously in parallel. 
+The name of this queue is fx.
+
+*Each HTML element has its own queue. With the following code there will be 5 calls to animate method placed in the queue of each div element. 
+This means both div elements (myDiv1 & myDiv2) may start to execute the first call to animate method more or less at the same time. However, from the given queue the queued methods are executed one after the other in series.
+
+
+* code finds the total number of method calls waiting in the queue. 
+While the first call to animate method is being executed, 
+the other calls are added to the queue and waiting to be executed one after the other in sequence.
+
+
+To globally disable all animations
+$.fx.off = true or jQuery.fx.off = true
+
+
+2 variations of animate methods:
+
+.animate(properties[,duration][,easing][,complete])
+.animate(properties,options)
+
+ *If you want the calls to animate() to be executed simultaneously in parallel, then set queue option to false. Modify the jQuery code as shown below.
+
+$('#myDiv1')
+    .animate({ 'width': 500 }, { duration: 1500, queue: false })
+    .animate({ 'padding': 20 }, { duration: 1500, queue: false })
+
+* an easier way to animate multiple css properties simultaneously in parallel, is to include
+all those css properties in a single JSON object.
+$('#mydiv1').animate({
+  'width':500,
+  'padding':20,
+  'font-size':50,
+  'border-width:10,
+  'opacity':1
+},1500);
+
+48) simple jquery progress bar:
+==============================
+* how to create a simple animated jquery progress bar using animate() function.
+Ex:
+
+ $(document).ready(function () {
+            $('#myButton').click(function () {
+                animateProgressBar($('#ddlPercentage').val());
+            });
+
+            function animateProgressBar(percentageCompleted) {
+                $('#innerDiv').animate({
+                    'width': (500 * percentageCompleted) / 100
+                }, 3000);
+
+                $({ counter: 1 }).animate({ counter: percentageCompleted }, {
+                    duration: 3000,
+                    step: function () {
+                        $('#innerDiv').text(Math.ceil(this.counter) + ' %');
+                    }
+                })
+            }
+        });
+
+
+49)Optimize jquery progress bar:
+================================
+At the moment the progress bar always counts from 1. For example
+1. When you select 30%, it starts to count from 1 to 30 which is good.
+2. Now if you select 70%, it starts again from 1 and counts all the way till 70, instead of continuing to count from 30 to 70.
+
+The following code counts from the previous point. For example
+1. If you select 30% first, it starts to count from 1 to 30. Now if you select 90, it counts from 30 to 90.
+2. At this point, if you select 20%, it counts down from 90 to 20.
+
+
+ $(document).ready(function () {
+        $('#myButton').click(function () {
+            animateProgressBar($('#ddlPercent').val());
+        });
+
+        function animateProgressBar(currentPercentage) {
+            $("#innerDiv").animate({ "width": (currentPercentage * 500) / 100 }, {
+                duration: 3000,
+                step: function (now, tween) {
+                    $("#innerDiv").text(Math.ceil((now / 500) * 100) + ' %');
+                }
+            });
+        }
+    });
+
+
+
+Note:
+* now	contains the value being animated
+* tween	is a complex object and contains several properties. A few are listed below. For the complete list set a break point and inspect the object
+
+* elem	The DOM element being animated
+* now	The value the animation is currently at
+* end	The value the animation will end at
+
+
+50) Jquery show hide password:
+===============================
+* One of the simplest ways of achieving this is by changing the type attribute of the password field depending on the checked status of Show password checkbox
+1. If the Show password checkbox is CHECKED change the type to text
+2. If the Show password checkbox is NOT CHECKED change the type to password
+
+
+The problem with the above approach is that it does not work in IE 8 and earlier versions. This is because with IE8 and earlier versions the type attribute of input elements cannot be changed once set. The following code works in all browsers including IE8 and earlier versions. 
+
+When Show password checkbox is clicked
+1. Retrieve the value the from the password textbox and store it in a variable for later use.
+2. Delete the password input filed. 
+3. If the "Show password" checkbox is CHECKED, then add a new input filed of type text, else add a new input filed of password. In both the cases set the value attribute of the input element = the variable created in Step 1.
+
+51)jquery increase decrease font size using jquery:
+====================================================
+*  how to increase, decrease and reset font size using jQuery.
+
+52)jquery floating div:
+========================
+* We want the div element in the sidebar to be floating and always visible as we scroll down the page.
+
+
+* 'position':'fixed'
+ -- A fixed position element is positioned relative to itself
+* 'position':'relative'
+-- A relative position element is positioned relative to itself.
+
+
+53)Jquery AJAX Load:
+====================
+* What is AJAX
+AJAX stands for Asynchronous JavaScript and XML, and allow parts of the page to be updated without having to reload the entire page. 
+
+Syntax 
+load( url [, data ] [, complete ] )
+
+*
+Parameter	Description
+=========       =============
+url	        Required. URL to which the request is sent
+data	        Optional. A JSON object or string that is sent to the server along with the request
+complete	A callback function that is called when the request completes
+
+
+
+53) jquery ajax load aspx page:
+================================
+When a text box receives focus, the help text associated with that field should be loaded from the server and displayed. When the focus is lost the help text disappears. The help text is stored in the database.
+
+We will be using the jquery ajax load function to achieve this. Here is how this is going to work
+1. The ASPX page loads data from the SQL Server database using ADO.NET and C#
+2. The HTML page loads HTML data from the ASPX page using jQuery AJAX load function
+
+
+54)jquery ajax load aspx page:
+===============================
+* When a text box receives focus, the help text associated with that field should be loaded from the server and displayed. 
+When the focus is lost the help text disappears. The help text is stored in the database.
+
+* first connect to datababse
+Include a connection string in the web.config file to your database.
+<add name="DBCS"
+      connectionString="server=.;database=SampleDB;integrated security=SSPI" />
+
+
+55)jquery load callback function:
+=================================
+* Syntax
+.load( url [, data ] [, complete ] )
+
+complete parameter is a callback function that is executed when the request completes. The callback function has 3 parameters.
+
+CallbackFunction(response, status, xhr)
+
+
+
+ex:
+
+If you want the code in the callback function to execute only if these is an error, you can do so using status parameter as shown below.
+$('#' + helpDiv + 'HelpDiv').load('GetHelpText.aspx', { HelpTextKey: helpDiv },
+    function (response, status, xhr) {
+        if (status == 'error') {
+            var errorMessage = 'status : ' + xhr.status + '<br/>';
+            errorMessage += 'status text : ' + xhr.statusText + '<br/>';
+            errorMessage += 'response : ' + response;
+            $('#divError').html(errorMessage);
+        }
+    });
+
+
+56)jquery ajax get function:
+===============================
+What is the difference between jQuery get and load functions
+1. jQuery load function can be used to load only the HTML data from the server, where as jquery get function can be used to load any type of data (xml, json, script, or html).
+
+2. jQuery load function may issue a get or post request depending on whether the data parameter is specified or not. POST method is used if data is provided, otherwise, GET is used. On the other hand jquery get method always issues a GET request.
+
+3. With load function we specify a selector first. The HTML content retrieved from the server is automatically inserted into the DOM elements matched by the selector.
+$('selector').load('url', 'data');
+
+With get function we do not specify any selector first, instead we will make use of the callback function to insert the data received from the server into the DOM elements.
+
+
+jQuery get function:
+====================
+$.get('url', 'data', function (response) {
+    $('selector').html(response);
+
+});
+
+          OR
+jQuery load function:
+=====================
+$('#'+helpDiv+'HelpDiv').load('GetHelpText.aspx',{HelpTextKey:helpDiv});
+
+
+$('selector').load('url','data');
+             OR
+$.get('url','data',function(response){
+	$('selector').html(response);
+});
+
+              OR
+
+
+ex: get
+var helpDiv = $(this).attr('id');
+                $.get('GetHelpText.aspx', { HelpTextKey: helpDiv }, function (response) {
+                    $('#' + helpDiv + 'HelpDiv').html(response);
+                });
+
+58)jquery ajax get xml data:
+=============================
+* how to load XML data from the server using jQuery get function
+
+change code in GetHelpText.aspx.cs
+=================================
+ Response.ContentType = "text/xml";
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(HelpText));
+            xmlSerializer.Serialize(Response.OutputStream,
+                GetHelpTextByKey(Request["HelpTextKey"]));
+
+
+59)jquery make a post request:
+==============================
+* To make a get request we use jquery get function. Jquery load function can be use to make either
+a get or post request, depending on whether the data parameter is specified or not. POST method is used if data
+is provided, otherwise , GET is used.
+
+*Another method that is available in jQuery to make a post request is post method.
+
+jQuery post function syntax
+$.post( url [, data ] [, success ] [, dataType ] )
+
+*  CHANGE THE FOLLOWING LINE FROM
+$.get('GetHelpText.aspx', { HelpTextKey: helpDiv }, function (response) {
+
+TO
+$.post('GetHelpText.aspx', { HelpTextKey: helpDiv }, function (response) {
+
+
+*A lot of people keep asking what is the difference between GET and POST in AJAX
+Whether you make GET and POST request using AJAX or by some other means is irrelevant, the differences are still the same.
+
+
+
+60)jquery ajax method:
+======================
+* The other methods that are available in jquery to make ajax requests are load(), get() and post(). We discussed these methods in detail in the previous sessions of jQuery tutorial video series. All these methods are wrapper methods and use ajax() method under the hood. In Visual Studio, if you right click on any of these methods and select "Go To Definition" from the context menu, you can see that these methods call ajax() method.
+
+* The wrapper methods are easier to use but they do not provide much flexibility. 
+If you want to have complete control on configuring the ajax request use ajax() method.
+
+Syntax of jquery ajax method
+$.ajax( [ settings ] )
+
+* settings is a JavaScript object that we use to configure the Ajax request. For the list of all available options please check the jquery ajax method documentation
+http://api.jquery.com/jquery.ajax/
+
+ex:
+     //using ajax() method
+
+                var helpDiv = $(this).attr('id');
+                
+                $.ajax({
+                    url: 'GetHelpText.aspx',
+                    data: { HelpTextKey: helpDiv },
+                    method:'get',
+                    success: function (response) {
+                        $('#' + helpDiv + 'HelpDiv').html(response);
+                    }
+                });
+
+
+61)calling asp net web services using jquery ajax:
+==================================================
+
+
+
+62)Handling json data returned from asp.net web services:
+
+There are 2 approaches to make an asp.net web service return JSON data and consume it using jQuery AJAX.
+
+Approach 1 : With Approach 1, the web service code does not change in any way. 
+
+We need to add/change the following options of the jquery request object.
+
+1. Add contentType option and set it to application/json; charset=utf-8 to specify that we will be sending a JSON string.
+
+2. Use JSON.stringify() method to convert the data you are sending to the server to a JSON string
+
+3. Change the dataType to json, to specify that you are expecting JSON data from the server
+
+4. Finally modify the success function to display Name, Gender and Salary property values from the JSON object.
+
+Please note : By defaut, the JSON object returned by the web service has a property d. So to retrieve Name property value, use data.d.Name.
+
+
+Approach 2 : With Approach 2 both the web service code and the jQuery code need to change.
+
+Modify the ASP.NET web service as shown below to return JSON data
+
+. Serialize the employee object to JSON string using JavaScriptSerializer and write it to the response stream.
+
+2. Since the method is not returning anything set the return type of the method to void.
+
+
+1. contentType option is no longer required, so you may remove it.
+ 
+
+
+2. You don't have to convert the data that you are sending to the server to JSON string, so you may remove JSON.stringify() method
+
+3. The JSON object returned from the server will not have property d, so you don't have to use d on the data object. For example, you can now retrieve Name property simply by using data.Name.
+
+
+64)save data using asp net web services & jquery ajax:
+======================================================
+* When Add Employee button is clicked we want to post form data to the asp.net web service 
+and the web service should save the data to the database table.
+
+65)check if username exists in database with ajax:
+====================================================
+
