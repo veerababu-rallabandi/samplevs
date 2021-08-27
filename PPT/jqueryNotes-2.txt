@@ -1,0 +1,175 @@
+* jQuery(<code>)--It is a jQuery Function
+
+*$(<code>)--It also alternative name of jQuery function
+
+* $(document) -- jQuery function usually takes a single argument, in this example: document
+* A jQuery object is like an array, which contains zero or more indexes. It also contains
+object methods like: Length, Context, Selector
+
+--> $(document).ready(): This is called DocumentReady, which is executed as soon as the document
+is ready for DOM manipulation.
+
+* jquery function chaining is one of the most powerful feature of jquery where it can perform multiple
+methods on the same set of elements, it saves us and the browser from having to find the same elements more than once.
+
+jquery selectors:class,id,etc..
+
+Attribute selectore: With this you can select elements using element attribute.
+
+ex: $("input[type]").
+$("*")---universal
+
+* Traversing the DOM
+=====================
+* In jquery, "Traversing" lets us to move through the DOM/HTML Elements in the web page.
+* with "Query selectors" we make initial selection then move using Traversing functions.
+* Having a strong commnad of the most common traversal functions will speed up your development time
+find(),children, closest(), parent(),next(),prev(),siblings(),first(),last()---methods
+
+DOM:
+====
+* one of the most important aspects of jquery , is DOM manipulation
+* DOM manipulation using standard javascript can be pretty cumbersome, fortunatley
+jquery comes with a bunch of DOm related methods
+-->manipulat elements'content
+   * text()--add/update text inside our html element
+   * html()--insert/update html code of an element
+   * val()--get/set form values
+-->Add/remove Dom element
+-->Modify an existing element
+-->copy/clone an element
+-->Add/remove/modify element's attribute
+
+
+* after(),before() etcc..
+Modifying properties & attributes:
+=================================
+* removeAttr(name)
+*hasclass(class)
+*addClass(class)
+* removeClass(class)
+*toggleClass(class)
+* prop()
+*.attr()
+
+* copying elements:
+===================
+JQuery clone() is used to copy a matched elements.
+
+Note : $.each() --iteraterates array, object, etc..
+Note : .each()--iterating  
+
+jquery filter:
+==============
+* eq() -- selects from the set of matched elements to the one at the spedified index
+
+* Filter() -- Selects the set of matched elements to those that match the selectore or pass the function's 
+test.
+
+* has()--exist or not
+* not()-it removes from the set of matched elements.
+
+
+* .data() API reads HTML 5 data-* attributes from DOM. it converts the data values
+to Javascript types.
+
+jquery animate:
+===============
+syntax: .animate(properties[,duration][,easing][,complete])
+properties--takes css properties and applies on element to make our animation
+Duration : takes time in milliseconds to play our animation
+Easing : Easing indicates transition effect which will be applied to animation.
+Complete : here we can provide a callback function to execute soon after animation finishes.
+
+Note : jquery is famous for its chaining concept, running multiple jquery commands, one after the other, on same elements.
+This is called  "chaining"
+
+form slectors:
+* get: $('input:text').val();
+* set: $('input[type=text]').val("new value");
+
+Radio buttons:
+$('input:radio') this selectors gets all the input fields with type texture
+
+Get: $('input:radio[name=radiobutton-name]:checked').val();
+Set : $('input:radio[name=radiobutton]')[0].checked=true;
+or 
+$('input:radio[name=radiobutton]:nth(0)').checked=true;
+
+Hidden--$('input:hidden')
+Get--$('input:hidden').val()
+set--$('input:hidden').val("new")
+
+* select(dropdown box): $(select) this selector gets all the selected values from selectbox
+
+Get: $('#dropdown-id').val()
+set: $('#dropdown-id').val('china')
+
+Get selected index: $('select')[0].selectedIndex);
+Set with index no: $('select')[0].selectedIndex=2;
+
+
+Regular expression:
+================
+^--start of string
+$--End of string
+. --Any single character
++ -- one or more character
+\-- Escape special characters
+?---Zero or more characters
+
+Regular expressions are commonly referred to as regex or regexp
+
+
+* test()-- jquerytest() method tests for a match in a string, it returns true if it finds a match,
+otherwise it returns false.
+ex: reg.test(mailId)
+
+
+Event Handling:
+-==============
+* jquery makes it easy to respond to user interaction on web page.
+events --click, keypress, mouse movement, resize
+
+
+Events:
+========
+* Binding event handlers: In jquery we can establish event handlers on DOM Elements with the bind() method.
+
+unbind()--This will remove any event handlers that you have attached with the bind() function.
+
+* we used the bind() & unbind() methods to attach and detach event handlers to various elements on the page but this methods
+fail to attach even handlers when elements are added dynamically.
+
+* using the live() method, you can attach your event handler to any future elements which matches your original selector.
+
+*  .on()---both directly binding events & creating delegated events.
+
+
+Note : .on() method --attaching many events to one event handler.
+
+ex: $().on("mouseenter mouseleave",function(){})
+
+
+* Event object--> whenever an event is triggered, the event handler function recieves one argument i.e. an event object that is
+normalized acrooss browser.
+
+
+Note:
+1. Preventing the defaiult action: For many element there is some default action like, when you click on <a> its
+default action is to navigate to a link.
+2. .preventDefault() -- This method is used to prevent the default behaviour or an event, it is called on event
+object.
+
+.stopPropagation()---it is called event bubbling , to avoid triggering events all the way up to the DOM.
+
+* one()---somethimes you need a particular event handler to run/execute only once.
+* off()-method to remove/clean event handlers.
+
+
+*  Triggering Event Handlers:
+-> .trigger()--jquery provides a way to trigger the event handlers bound to an element without a any user interaction.
+-> When an event handler is added using .on('click',function(){}),it can be triggered using jquery's .trigger("click")
+bcoz jquery stores a reference to that handler when it is originally added.
+additionally, it will trigger the javascript inside the onclick attribute.
+--> the .trigger() function cannont be used to mimic native browser events, such as clicking an anchor tag.
