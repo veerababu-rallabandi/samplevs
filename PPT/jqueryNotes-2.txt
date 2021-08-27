@@ -244,8 +244,9 @@ Ajax method:
 * jsonp - This specifies the callback name to send in a queriy string when making a JSONP request.
 the default is "Callback"
 
-* success -
-* timeout -
+* success - A callback function is to be run if the request is success. The fiunction receives the response data (converted to a javascript object if the dataType was JSON), as well as the text status of the request
+and raw request object.
+* timeout - specifies time in milliseconds to wait & consider as the request is a failure.
 * type - This specifies the type of request, "post" or "Get" .default is "GET"
 * url - This is request URL
         -> The "url" options is the only mandatory property in the configuration onbject, all ohter
