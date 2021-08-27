@@ -172,4 +172,81 @@ object.
 -> When an event handler is added using .on('click',function(){}),it can be triggered using jquery's .trigger("click")
 bcoz jquery stores a reference to that handler when it is originally added.
 additionally, it will trigger the javascript inside the onclick attribute.
---> the .trigger() function cannont be used to mimic native browser events, such as clicking an anchor tag.
+--> the .trigger() function cannont be used to mimic native browser 
+events, such as clicking an anchor tag.
+
+
+Ajax:
+
+=====
+* Data can be transferred b/w browser & server, with the XMLHttpRequest API, without having to reload the
+web page using Ajax.
+* These Ajax requests are written & executed with js code:
+  ->The code sends a request to a URL and when it receives a response, a callback function is executed to handle the response.
+* request being asynchronous , the rest of your code continues to execute while the request is being processed and response is
+received in xml format, this technology is called AJAX(asynchronous javascript and xml)
+
+* unfortunately, different browsers implement the Ajax API differently.
+* Developers need to instatiate XHR object differently to support different browsers and would have to struggle
+to ensure that ajax would work properly with all browsers.
+* jquery provides $.ajax() method that abstracts away painful browser differences. This method offers full-featured AJAX functionalities
+methods:
+$.get()
+$.getScript()
+$.getJSON()
+$.post()
+$().load()
+
+
+* Two most common methods for sending request to a server are GET and POST
+1. GET - The GET method should be used for operations where you are only "getting" data from the server, not changing data on the server.
+Eg: a serach query can be a GET request.
+Get requests generally sends their data by appending into URL using query string.
+
+2. POST -- The POST method should be used for operations where you are changing data on the server
+Eg: a user saving a blog post can be a POST request
+
+* Post request are generally not cached by the browser; a query string can be part of url, but the data tends to be sent separately as post
+data.
+
+
+DataTypes: jquery $.ajax() requires some instruction as to the type of data you get back from an  AJAX request, 
+* text - transfers simple string
+* html - transfers block of HTML
+* script - to add a new script to pages
+* json - transfer json formatted data, which include striing, objects and arrays
+* jsonp - used for JSON data from another domain
+* xml - transfers data in custom XML schema
+
+
+* Same-Origin policy and JSONP : To make a Ajax requests it should be from are the same protocol (http or https), the same port and same domain which is called as
+Same-Origin policy.
+* This was drawback from AJAX and this limitation was not applicable to scripts that are loaded via jQuery's AJAX methods
+
+* To make AJax reqiuest from different domain we can use JSONP
+* In the case of JSONP, the provider of the service will respond to the AJAX request with a script that can be loaded into the page using a <script> tag,
+thus avoiding the same-origin limitation; that script will include the data you requested, wrapped in a callback function you provdie
+
+Ajax method:
+=============
+* jquery offers many Ajax-related simple & convenience methods but the primary method is $.ajax()
+* $.ajax() method is powerful & straightforward way of creating Ajax requests
+* it takes configuration object that contains all the instructions jquery requeis to complete request 
+* $.ajax() options - there are many options available for $.ajax() method, which it more powerful
+
+
+* async - Accepts true/false, default is true. False will make request synchronously and will block execution of other code until response is received.
+* cache - use to cache your response if available, default is true for all datatiypes except "script" and "jsonp"
+* complete - Triggers a callback function to run when the request is complete, regardless of success or failure
+* data- The data to be sent to server, it can be either string or object.
+* dataType - This specifies the type of data you expect from server
+* error - callback function to run when request gets an error
+* jsonp - This specifies the callback name to send in a queriy string when making a JSONP request.
+the default is "Callback"
+
+* success -
+* timeout -
+* type - This specifies the type of request, "post" or "Get" .default is "GET"
+* url - This is request URL
+        -> The "url" options is the only mandatory property in the configuration onbject, all ohter
+           properties are optional.
