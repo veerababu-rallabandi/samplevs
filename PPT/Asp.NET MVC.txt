@@ -1,0 +1,32 @@
+A common  piece of view code(HTML code) which is available for all the Views in website
+in known partial view.
+
+* partial view can have HTML code 
+* partial view can have C# code also.
+* These are available to entire website to we put them in shared folder.
+
+How to use:
+
+* There are two methods in to render partial view-
+
+1. @Html.Partial("viewName")
+2. @Html.RenderPartial("viewName")
+
+
+Difference b/w Html.Partial & @Html.RenderPartial
+
+partial
+=======
+* @Html.Partial("_PartialView")
+* Returns MvcHtmlString
+* Can assign output to a variable
+
+RenderPartial
+=============
+@{Html.RenderPartial("_PartialView");}
+* Returns Void
+* Result is written directly to output stream.
+
+which one is fast:  @Html.RenderPartial (bcoz it returns void & its ouptut is 
+directly written to output stream.)
+
