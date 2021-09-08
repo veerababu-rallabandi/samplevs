@@ -1,0 +1,60 @@
+204 - Delete
+404- Not found
+
+
+PostMan:
+=======
+collection: 
+* Group of API requests
+* that can be stored and saved in logical arrangement.
+* Forms the basis for advanced operations in POSTMAN.
+
+Variables:
+==========
+* What are variables in POSTMAN
+* Why to use variables
+* How to create variables
+* How to refer variables
+
+Useful Tips
+
+What: variables- Elements(data store) that can take different values
+why: 
+* To reuse values at multiple places
+* avoid repetition
+* To avoid re-work when value changes
+
+How to create variable--click collection(...)edit
+variable--key -url --value--"link"
+
+how to use variable--
+
+{{url}}/api/users/2--just like that
+
+Postman console ---whenever run anything - get log in  postman console.
+
+How to set & get variables through scripts
+
+
+To write test
+
+1. How to get variables throught scripts
+2. How to set variables throught scripts.
+
+set variable-->pm.variables.set("name","POSTMAN")
+get variable-->pm.variables.get("name") --ans: postman
+
+get --> let globalvar=pm.globals.get("Env")
+console.log(globalvar);
+
+How to set environment
+* pm.environment.get();
+* pm.environment.set();
+
+How to create Environment:
+============================
+
+environment : Env is a set of key-value pairs
+
+
+
