@@ -1,0 +1,64 @@
+WCF:
+=========
+* Windows communication Foundation(WCF) is a framework for building service-oriented applications.
+WCF used to send data as asynchronous message from one service endpoint to another.
+You can host the service in IIS. WCF service send the real time data to client according
+to the clients request.
+
+Service1.svc.cs-->This is .svc file with 2 default method.
+
+Service.svc inherits and implements the methods that are defined in IService.cs.
+
+* IService.cs is an interface that consists all the service methods. If the method isn't
+declared in the IService.cs it won't be accessible from client.
+
+Note:
+------
+Service Contracts: Service contracts describes what operations can be performed by the client
+on the service.
+
+namespace ---name of WCF service.
+
+Operation contract: Operation contract indicates a method defines of an operation.
+A method decorated with operation contract to expose to the client.
+
+* Data contract : A data contract is a formal agreement b/w a client and service that 
+ abstractly describes the data to be exchanged.
+
+Class based on [OperationContact]
+
+OnClientClient --in html(asking user are you sure to delete).
+
+How to WCF service in IIS:
+----------------------------
+step1: copy the WCF Service folder expect .sln file
+step 2: Go to C: drive
+step 3: Paste it in C:inetpub/wwwroot. If you don't have those folder, install ISS.
+To install IIS, see the tutorial from the link given in the description box below.
+
+
+Why should host in IIS?
+* If you don't host in IIS you should keep running the service in browser. BCOZ
+it generates different link in each browsing.
+
+* If hosted in IIS no need to run the service in browser. Just keep running the IIS 
+server only.
+
+Note: Operation contact must be equal with Service1.svc.cs method.
+
+
+Introduction to WCF:
+--------------------
+* WCF stands for Windows communication Foundation.
+* WCF is Microsoft platform a part of .NET 3.0 framework.
+* WCF is used for building the distributed and interoperatble applications.
+
+Distributed:
+-------------
+Each computer in the network runs on(or more) of these components which perform different tasks.
+
+Interoperable:
+---------------
+An application that can communicate with any other application built on any
+platform.
+ 
